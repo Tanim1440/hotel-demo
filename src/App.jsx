@@ -1,26 +1,44 @@
-
 // import { Routes, Route, useLocation } from "react-router-dom";
 // import Navber from "./components/Navber";
 // import Home from "./components/Home";
 // import Footer from "./components/Footer";
 // import AllRooms from "./components/pages/AllRooms";
+// import RoomDetails from "./components/pages/RoomDetails";
+// import MyBookings from "./components/pages/MyBookings";
+// import HotelReg from "./components/HotelReg";
+// import Layout from "./components/pages/hotelOwner/Layout";
+// import Dashboard from "./components/pages/hotelOwner/Dashboard";
+// import AddRoom from "./components/pages/hotelOwner/AddRoom";
+// import ListRoom from "./components/pages/hotelOwner/ListRoom";
 
 // const App = () => {
 //   const location = useLocation();
-//   const isOwnerPath = location.pathname.includes("owner");
+//   const isOwnerPath = location.pathname.startsWith("/owner");
 
 //   return (
-//     <div>
+//     <>
+//       {/* Navbar only for user side */}
 //       {!isOwnerPath && <Navber />}
-//       <div>
-//         <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/rooms" element={<AllRooms/>} />
 
+//       {/* Optional: Hotel registration */}
+//       {/* <HotelReg /> */}
+
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/rooms" element={<AllRooms />} />
+//         <Route path="/rooms/:id" element={<RoomDetails />} />
+//         <Route path="/my-bookings" element={<MyBookings />} />
+
+//         {/* Owner layout */}
+//         <Route path="/owner/*" element={<Layout />} />
+//         <Route index element={<Dashboard/>} />
+//         <Route path="add-room" element={<AddRoom/>} />
+//         <Route path="list-room" element={<ListRoom/>} />
 //       </Routes>
-//       </div>
-//       <Footer />
-//     </div>
+
+//       {/* Footer only for user side */}
+//       {!isOwnerPath && <Footer />}
+//     </>
 //   );
 // };
 
@@ -34,24 +52,36 @@ import AllRooms from "./components/pages/AllRooms";
 import RoomDetails from "./components/pages/RoomDetails";
 import MyBookings from "./components/pages/MyBookings";
 
+import Layout from "./components/pages/hotelOwner/Layout";
+import Dashboard from "./components/pages/hotelOwner/Dashboard";
+import AddRoom from "./components/pages/hotelOwner/AddRoom";
+import ListRoom from "./components/pages/hotelOwner/ListRoom";
+
 const App = () => {
   const location = useLocation();
   const isOwnerPath = location.pathname.startsWith("/owner");
 
   return (
     <>
+      {/* Navbar only for user side */}
       {!isOwnerPath && <Navber />}
 
       <Routes>
+        {/* User routes */}
         <Route path="/" element={<Home />} />
         <Route path="/rooms" element={<AllRooms />} />
         <Route path="/rooms/:id" element={<RoomDetails />} />
-         <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
 
-        {/* Temporary route to prevent blank page */}
-        <Route path="/rooms/:id" element={<div>Room Details</div>} />
+        {/* Owner routes (NESTED) */}
+        <Route path="/owner" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="add-room" element={<AddRoom />} />
+          <Route path="list-room" element={<ListRoom />} />
+        </Route>
       </Routes>
 
+      {/* Footer only for user side */}
       {!isOwnerPath && <Footer />}
     </>
   );
